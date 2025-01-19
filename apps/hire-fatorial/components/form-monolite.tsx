@@ -83,11 +83,9 @@ export const FormMonolite = () => {
   } = useProfilesFind(onSuccess2);
 
   return (
-    <div className="py-12 w-full animate-fade-down">
+    <div className="py-12 w-full animate-fade-down h-screen" id="form">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight" id="form">
-          Hunting profiles
-        </h2>
+        <h2 className="text-3xl font-bold tracking-tight">Hunting profiles</h2>
       </div>
       <div className="flex flex-col justify-center gap-4 mt-16 ">
         {step === 1 && (

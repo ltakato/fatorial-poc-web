@@ -1,9 +1,11 @@
 import { Button } from "@workspace/ui/components/button";
 import Link from "next/link";
+import { Header } from "@/components/header";
 
 export const Hero = () => {
   return (
-    <div className="relative isolate overflow-hidden">
+    <div className="relative isolate overflow-hidden h-screen">
+      <Header />
       <svg
         aria-hidden="true"
         className="absolute animate-fade inset-0 -z-10 size-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"

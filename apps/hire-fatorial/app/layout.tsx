@@ -28,10 +28,7 @@ export default function RootLayout({
       <body
         className={`${fontInter.className} antialiased max-w-screen-xl mx-auto`}
       >
-        <Providers>
-          <Header />
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
