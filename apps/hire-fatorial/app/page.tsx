@@ -26,7 +26,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@workspace/ui/components/avatar";
-import { Linkedin, LinkedinIcon } from "lucide-react";
 
 type FormData = {
   jobDescription: string;
@@ -103,7 +102,7 @@ export default function Page() {
                     <FormControl>
                       <Textarea
                         {...field}
-                        className="min-h-[240]"
+                        className="min-h-[240px]"
                         placeholder="Inserir job description..."
                       />
                     </FormControl>
@@ -127,7 +126,7 @@ export default function Page() {
             <div>
               <Label>Job Description</Label>
               <Textarea
-                className="min-h-[240]"
+                className="min-h-[240px]"
                 value={form1.watch("jobDescription")}
                 disabled={true}
               />
