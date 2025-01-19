@@ -197,7 +197,7 @@ export const FormMonolite = () => {
           </Form>
         )}
         {step === 3 && (
-          <div className="mt-16 animate-fade-down">
+          <div className="mt-16 animate-fade-down flex flex-col gap-4">
             {data2.map((item) => (
               <Card key={item.name}>
                 <CardHeader className="flex flex-col items-center md:flex-row md:gap-4">
