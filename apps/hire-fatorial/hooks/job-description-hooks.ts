@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-export function useJobDescriptionTranslate() {
+export function useJobDescriptionTranslate(successCallback: () => void) {
   return useMutation({
     mutationFn: async (jobDescription: string) => {
       await new Promise((resolve) => setTimeout(() => resolve(null), 3000));
@@ -12,5 +12,6 @@ export function useJobDescriptionTranslate() {
         "Análise de alocações externas",
       ];
     },
+    onSuccess: successCallback,
   });
 }
