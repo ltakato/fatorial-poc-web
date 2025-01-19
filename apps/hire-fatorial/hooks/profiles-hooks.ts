@@ -16,7 +16,8 @@ export function useProfilesFind(onSuccess: () => void) {
       const result: Profile[] = [
         {
           name: "Mario Andrade",
-          pictureUrl: "",
+          pictureUrl:
+            "https://i.ibb.co/jDWHmnT/Screenshot-2025-01-18-at-22-39-16.png",
           currentJobTitle: "Acessor de investimentos",
           currentCompany: "BTG Pactual",
           linkedinUrl: "https://www.linkedin.com",

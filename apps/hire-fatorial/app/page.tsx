@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { FaLinkedin } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@workspace/ui/components/button";
 import { Textarea } from "@workspace/ui/components/textarea";
@@ -19,6 +20,13 @@ import { Label } from "@workspace/ui/components/label";
 import { MultiSelect } from "@workspace/ui/components/multiselect";
 import { useProfilesFind } from "@/hooks/profiles-hooks";
 import { useJobDescriptionTranslate } from "@/hooks/job-description-hooks";
+import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@workspace/ui/components/avatar";
+import { Linkedin, LinkedinIcon } from "lucide-react";
 
 type FormData = {
   jobDescription: string;
@@ -67,17 +75,22 @@ export default function Page() {
     isPending: isPending1,
     data = [],
   } = useJobDescriptionTranslate(onSuccess1);
-  const { mutate: mutate2, isPending: isPending2 } =
-    useProfilesFind(onSuccess2);
+  const {
+    mutate: mutate2,
+    isPending: isPending2,
+    data: data2 = [],
+  } = useProfilesFind(onSuccess2);
 
   return (
-    <div className="flex items-center justify-center min-h-svh p-10">
-      <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center gap-12 min-h-svh p-10">
+      <div>
         <h2 className="text-3xl font-bold tracking-tight">Hunting profiles</h2>
+      </div>
+      <div className="flex flex-col justify-center gap-4 w-3/5">
         {step === 1 && (
           <Form {...form1}>
             <form
-              className="space-y-8"
+              className="space-y-4"
               onSubmit={form1.handleSubmit(onSubmit1)}
             >
               <FormField
@@ -90,6 +103,7 @@ export default function Page() {
                     <FormControl>
                       <Textarea
                         {...field}
+                        className="min-h-[240]"
                         placeholder="Inserir job description..."
                       />
                     </FormControl>
@@ -108,75 +122,134 @@ export default function Page() {
             </form>
           </Form>
         )}
-        {step === 2 && (
+        {step > 1 && (
           <>
             <div>
               <Label>Job Description</Label>
-              <Textarea value={form1.watch("jobDescription")} disabled={true} />
-            </div>
-            <Form {...form2}>
-              <form
-                className="space-y-8"
-                onSubmit={form2.handleSubmit(onSubmit2)}
-              >
-                <FormField
-                  control={form2.control}
-                  name="tags"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tags para a busca</FormLabel>
-                      <FormDescription>
-                        Selecione as tags para a busca
-                      </FormDescription>
-                      <FormControl>
-                        <MultiSelect
-                          {...field}
-                          variant="inverted"
-                          placeholder="Selecione tags"
-                          options={data.map((item) => ({
-                            value: item,
-                            label: item,
-                          }))}
-                          onValueChange={(e) => field.onChange(e)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  type="submit"
-                  size="sm"
-                  disabled={isPending2}
-                  loading={isPending2}
-                >
-                  Encontrar perfis
-                </Button>
-              </form>
-            </Form>
-          </>
-        )}
-        {step === 3 && (
-          <>
-            <div>
-              <Label>Job Description</Label>
-              <Textarea value={form1.watch("jobDescription")} disabled={true} />
-            </div>
-            <div>
-              <Label>Tags para a busca</Label>
-              <MultiSelect
-                variant="inverted"
-                placeholder="Selecione tags"
-                options={data.map((item) => ({
-                  value: item,
-                  label: item,
-                }))}
-                defaultValue={form2.watch("tags")}
-                onValueChange={() => {}}
+              <Textarea
+                className="min-h-[240]"
+                value={form1.watch("jobDescription")}
                 disabled={true}
               />
             </div>
+            {step > 2 && (
+              <div>
+                <Label>Tags para a busca</Label>
+                <MultiSelect
+                  variant="inverted"
+                  placeholder="Selecione tags"
+                  options={data.map((item) => ({
+                    value: item,
+                    label: item,
+                  }))}
+                  defaultValue={form2.watch("tags")}
+                  onValueChange={() => {}}
+                  maxCount={100}
+                  disabled={true}
+                />
+              </div>
+            )}
           </>
+        )}
+        {step === 2 && (
+          <Form {...form2}>
+            <form
+              className="space-y-8"
+              onSubmit={form2.handleSubmit(onSubmit2)}
+            >
+              <FormField
+                control={form2.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tags para a busca</FormLabel>
+                    <FormDescription>
+                      Selecione as tags para a busca
+                    </FormDescription>
+                    <FormControl>
+                      <MultiSelect
+                        {...field}
+                        variant="inverted"
+                        placeholder="Selecione tags"
+                        maxCount={100}
+                        options={data.map((item) => ({
+                          value: item,
+                          label: item,
+                        }))}
+                        onValueChange={(e) => field.onChange(e)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                size="sm"
+                disabled={isPending2}
+                loading={isPending2}
+              >
+                Encontrar perfis
+              </Button>
+            </form>
+          </Form>
+        )}
+        {step === 3 && (
+          <div className="mt-16">
+            {data2.map((item) => (
+              <Card key={item.name}>
+                <CardHeader className="flex flex-row gap-10">
+                  <Avatar className="size-24">
+                    <AvatarImage
+                      src={item.pictureUrl}
+                      alt="imagem do candidato"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <a href={item.linkedinUrl} target="_blank">
+                    <p className="text-3xl">{item.name}</p>
+                    <div className="flex items-center gap-2">
+                      <FaLinkedin size={18} />
+                      <span>linkedin</span>
+                    </div>
+                  </a>
+                </CardHeader>
+                <CardContent className="grid gap-4">
+                  <div className="space-y-1">
+                    <p className="text-sm text-muted-foreground">Job title</p>
+                    <p className="text-sm font-medium leading-none">
+                      {item.currentJobTitle}
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm text-muted-foreground">
+                      Empresa atual
+                    </p>
+                    <p className="text-sm font-medium leading-none">
+                      {item.currentCompany}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">
+                      Tags compatíveis
+                    </p>
+                    <MultiSelect
+                      variant="inverted"
+                      placeholder="Selecione tags"
+                      options={data.map((item) => ({
+                        value: item,
+                        label: item,
+                      }))}
+                      defaultValue={item.matchedTags}
+                      onValueChange={() => {}}
+                      maxCount={100}
+                      disabled={true}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         )}
       </div>
     </div>
