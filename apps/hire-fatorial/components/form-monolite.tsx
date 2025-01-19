@@ -198,58 +198,64 @@ export const FormMonolite = () => {
         )}
         {step === 3 && (
           <div className="mt-16 animate-fade-down flex flex-col gap-4">
-            {data2.map((item) => (
-              <Card key={item.name}>
-                <CardHeader className="flex flex-col items-center md:flex-row md:gap-4">
-                  <Avatar className="size-24">
-                    <AvatarImage
-                      src={item.pictureUrl}
-                      alt="imagem do candidato"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <Link
-                    href={item.linkedinUrl}
-                    target="_blank"
-                    className="flex items-center justify-center md:justify-start flex-col md:flex-row w-full"
-                  >
-                    <div className="text-center flex flex-col items-center md:items-start justify-center">
-                      <div className="flex items-center gap-2">
-                        <p className="text-2xl font-medium text-gray-900">
-                          {item.name}
-                        </p>
-                        <FaLinkedin size={14} className="mt-1" />
+            {data2.map((item) => {
+              const [fb1, fb2] = item.name.split(" ");
+              return (
+                <Card key={item.name}>
+                  <CardHeader className="flex flex-col items-center md:flex-row md:gap-4">
+                    <Avatar className="size-24">
+                      <AvatarImage
+                        src={item.pictureUrl}
+                        alt="imagem do candidato"
+                      />
+                      <AvatarFallback>
+                        {(fb1?.[0] ?? "").toUpperCase() +
+                          (fb2?.[0] ?? "").toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <Link
+                      href={item.linkedinUrl}
+                      target="_blank"
+                      className="flex items-center justify-center md:justify-start flex-col md:flex-row w-full"
+                    >
+                      <div className="text-center flex flex-col items-center md:items-start justify-center">
+                        <div className="flex items-center gap-2">
+                          <p className="text-2xl font-medium text-gray-900">
+                            {item.name}
+                          </p>
+                          <FaLinkedin size={14} className="mt-1" />
+                        </div>
+                        <span className="font-normal text-muted-foreground text-sm">
+                          {item.currentJobTitle}
+                        </span>
+                        <span className="font-light text-sm text-gray-600">
+                          {item.currentCompany}
+                        </span>
                       </div>
-                      <span className="font-normal text-muted-foreground text-sm">
-                        {item.currentJobTitle}
-                      </span>
-                      <span className="font-light text-sm text-gray-600">
-                        {item.currentCompany}
-                      </span>
+                    </Link>
+                  </CardHeader>
+                  <CardContent className="flex gap-4 flex-col items-center justify-center ">
+                    <div className="flex flex-col gap-4 w-full">
+                      <p className="text-sm text-muted-foreground text-center">
+                        Tags compatíveis
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 ">
+                        {item.matchedTags.map((item, index) => {
+                          return (
+                            <Badge
+                              className="hover:bg-transparent text-foreground/80 bg-transparent border border-muted-foreground/50 w-full text-center flex items-center justify-center"
+                              key={`${item}:${index}`}
+                            >
+                              {item}
+                            </Badge>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </Link>
-                </CardHeader>
-                <CardContent className="flex gap-4 flex-col items-center justify-center ">
-                  <div className="flex flex-col gap-4 w-full">
-                    <p className="text-sm text-muted-foreground text-center">
-                      Tags compatíveis
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 ">
-                      {item.matchedTags.map((item, index) => {
-                        return (
-                          <Badge
-                            className="hover:bg-transparent text-foreground/80 bg-transparent border border-muted-foreground/50 w-full text-center flex items-center justify-center"
-                            key={`${item}:${index}`}
-                          >
-                            {item}
-                          </Badge>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>
