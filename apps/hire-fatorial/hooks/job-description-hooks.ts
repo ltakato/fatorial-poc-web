@@ -1,16 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
+import apiClient from "@/lib/fatorial-app-client-http";
 
 export function useJobDescriptionTranslate(successCallback: () => void) {
   return useMutation({
     mutationFn: async (jobDescription: string) => {
-      await new Promise((resolve) => setTimeout(() => resolve(null), 3000));
+      const res = await apiClient.post<
+        { jobDescription: string },
+        { tags: string[] }
+      >("/job-description/translate", {
+        jobDescription,
+      });
 
-      return [
-        "Gestão de patrimônio",
-        "Elaboração de portfóliios",
-        "Acompanhamento de tendências de mercado",
-        "Análise de alocações externas",
-      ];
+      return res.tags as string[];
     },
     onSuccess: successCallback,
   });

@@ -74,7 +74,7 @@ export const FormMonolite = () => {
   const {
     mutate: mutate1,
     isPending: isPending1,
-    data = [],
+    data: data1 = [],
   } = useJobDescriptionTranslate(onSuccess1);
   const {
     mutate: mutate2,
@@ -140,7 +140,7 @@ export const FormMonolite = () => {
                 <MultiSelect
                   variant="inverted"
                   placeholder="Selecione tags"
-                  options={data.map((item) => ({
+                  options={data1.map((item) => ({
                     value: item,
                     label: item,
                   }))}
@@ -174,7 +174,7 @@ export const FormMonolite = () => {
                         variant="inverted"
                         placeholder="Selecione tags"
                         maxCount={100}
-                        options={data.map((item) => ({
+                        options={data1.map((item) => ({
                           value: item,
                           label: item,
                         }))}
