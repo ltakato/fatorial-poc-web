@@ -1,5 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
+import apiClient from "@/lib/fatorial-app-client-http";
 
+type ProfileFindResponse = {
+  url: string;
+  data: {
+    fullName: string;
+    profilePic: string;
+    experiences: {
+      title: string;
+      subtitle: string;
+    }[];
+    skills: {
+      title: string;
+    }[];
+  };
+};
 type Profile = {
   name: string;
   pictureUrl: string;
@@ -12,25 +27,20 @@ type Profile = {
 export function useProfilesFind(onSuccess: () => void) {
   return useMutation({
     mutationFn: async (tags: string[]) => {
-      await new Promise((resolve) => setTimeout(() => resolve(null), 3000));
-      const result: Profile[] = [
-        {
-          name: "Mario Andrade",
-          pictureUrl:
-            "https://i.ibb.co/jDWHmnT/Screenshot-2025-01-18-at-22-39-16.png",
-          currentJobTitle: "Acessor de investimentos",
-          currentCompany: "BTG Pactual",
-          linkedinUrl: "https://www.linkedin.com",
-          matchedTags: [
-            "Gestão de patrimônio",
-            "Elaboração de portfóliios",
-            "Acompanhamento de tendências de mercado",
-            "Análise de alocações externas",
-          ],
-        },
-      ];
-
-      return result;
+      const res = await apiClient.post<
+        { tags: string[] },
+        { data: ProfileFindResponse[] }
+      >("/profile/find", {
+        tags,
+      });
+      return res.data.map((item) => ({
+        name: item.data.fullName,
+        pictureUrl: item.data.profilePic,
+        currentJobTitle: item.data.experiences[0]?.title,
+        currentCompany: item.data.experiences[0]?.subtitle,
+        linkedinUrl: item.url,
+        matchedTags: item.data.skills.map(({ title }) => title),
+      })) as Profile[];
     },
     onSuccess,
   });
