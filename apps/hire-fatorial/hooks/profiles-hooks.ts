@@ -9,7 +9,7 @@ type Profile = {
   matchedTags: string[];
 };
 
-export function useProfilesFind() {
+export function useProfilesFind(onSuccess: () => void) {
   return useMutation({
     mutationFn: async (tags: string[]) => {
       await new Promise((resolve) => setTimeout(() => resolve(null), 3000));
@@ -31,5 +31,6 @@ export function useProfilesFind() {
 
       return result;
     },
+    onSuccess,
   });
 }

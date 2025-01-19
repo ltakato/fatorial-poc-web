@@ -60,13 +60,15 @@ export default function Page() {
     const tags = formData.tags;
     mutate2(tags);
   };
+  const onSuccess2 = () => setStep(3);
 
   const {
     mutate: mutate1,
     isPending: isPending1,
     data = [],
   } = useJobDescriptionTranslate(onSuccess1);
-  const { mutate: mutate2, isPending: isPending2 } = useProfilesFind();
+  const { mutate: mutate2, isPending: isPending2 } =
+    useProfilesFind(onSuccess2);
 
   return (
     <div className="flex items-center justify-center min-h-svh p-10">
@@ -152,6 +154,28 @@ export default function Page() {
                 </Button>
               </form>
             </Form>
+          </>
+        )}
+        {step === 3 && (
+          <>
+            <div>
+              <Label>Job Description</Label>
+              <Textarea value={form1.watch("jobDescription")} disabled={true} />
+            </div>
+            <div>
+              <Label>Tags para a busca</Label>
+              <MultiSelect
+                variant="inverted"
+                placeholder="Selecione tags"
+                options={data.map((item) => ({
+                  value: item,
+                  label: item,
+                }))}
+                defaultValue={form2.watch("tags")}
+                onValueChange={() => {}}
+                disabled={true}
+              />
+            </div>
           </>
         )}
       </div>
