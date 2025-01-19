@@ -81,11 +81,11 @@ export default function Page() {
   } = useProfilesFind(onSuccess2);
 
   return (
-    <div className="flex flex-col items-center gap-12 min-h-svh p-10">
+    <div className="p-[24px] md:w-3/5 md:mx-auto">
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Hunting profiles</h2>
       </div>
-      <div className="flex flex-col justify-center gap-4 w-3/5">
+      <div className="flex flex-col justify-center gap-4 mt-16">
         {step === 1 && (
           <Form {...form1}>
             <form
