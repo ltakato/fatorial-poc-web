@@ -40,12 +40,10 @@ export const Hero = () => {
           </p>
           <div className="mt-10 flex items-center justify-center sm:justify-start gap-x-6">
             <Link
-              href="#"
-              className="rounded-md w-full sm:w-fit text-center sm:text-left px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm"
+              href="#form"
+              className="rounded-md w-full sm:w-fit text-center sm:text-left text-sm font-semibold text-white shadow-sm"
             >
-              <Button variant="default" asChild>
-                Buscar talentos
-              </Button>
+              <Button variant="default">Buscar talentos</Button>
             </Link>
           </div>
         </div>
