@@ -1,30 +1,38 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Inter } from "next/font/google";
 
-import "@workspace/ui/globals.css"
-import { Providers } from "@/components/providers"
+import "@workspace/ui/globals.css";
+import { Providers } from "@/components/providers";
+import { Header } from "@/components/header";
+import { Metadata } from "next/types";
 
-const fontSans = Geist({
+const fontInter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
-})
+  display: "swap",
+  weight: ["400", "500", "700"],
+});
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+export const metadata: Metadata = {
+  robots: "all",
+  title: "HireAI",
+  icons: [{ rel: "icon", url: "favicon.ico" }],
+  description: "HireAI, a nova forma de contratar.",
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
+        className={`${fontInter.className} antialiased max-w-screen-xl mx-auto`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
-  )
+  );
 }
